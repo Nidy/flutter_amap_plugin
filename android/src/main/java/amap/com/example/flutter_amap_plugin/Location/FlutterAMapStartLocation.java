@@ -44,16 +44,24 @@ public class FlutterAMapStartLocation implements MethodChannel.MethodCallHandler
             if (mLocationOption.isNeedAddress()) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("address", aMapLocation.getAddress());
-                map.put("lat", aMapLocation.getLatitude());
-                map.put("lon", aMapLocation.getLongitude());
+                map.put("city", aMapLocation.getCity());
+                map.put("district", aMapLocation.getDistrict());
+                map.put("province", aMapLocation.getProvince());
+                map.put("country", aMapLocation.getCountry());
+                map.put("street", aMapLocation.getStreet());
+                map.put("streetNum", aMapLocation.getStreetNum());
+                map.put("locationDetail", aMapLocation.getLocationDetail());
+                map.put("latitude", aMapLocation.getLatitude());
+                map.put("longitude", aMapLocation.getLongitude());
                 FlutterAmapPlugin.locChannel.invokeMethod("reGeocodeSuccess", map);
             } else {
                 Map<String, Object> map = new HashMap<>();
-                map.put("lat", aMapLocation.getLatitude());
-                map.put("lon", aMapLocation.getLongitude());
+                map.put("latitude", aMapLocation.getLatitude());
+                map.put("longitude", aMapLocation.getLongitude());
                 FlutterAmapPlugin.locChannel.invokeMethod("locationSuccess", map);
             }
         } else {
+            assert aMapLocation != null;
             FlutterAmapPlugin.locChannel.invokeMethod("locationError",
                     "定位错误:{" + aMapLocation.getErrorCode() + "-" + aMapLocation.getErrorInfo() + "}");
         }
