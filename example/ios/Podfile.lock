@@ -23,7 +23,7 @@ DEPENDENCIES:
   - flutter_amap_plugin (from `.symlinks/plugins/flutter_amap_plugin/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AMap3DMap-NO-IDFA
     - AMapFoundation-NO-IDFA
     - AMapLocation-NO-IDFA
@@ -43,10 +43,10 @@ SPEC CHECKSUMS:
   AMapLocation-NO-IDFA: d7792c8c516f415e186f1bc25946f1a58ca6a583
   AMapNavi-NO-IDFA: ad1bdff5c62864469662c91a4c3d0a2f8b1335eb
   AMapSearch-NO-IDFA: 07651afae010f7acda12beb1f2c0f45d29069e75
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_amap_plugin: c028bc71590f4474b139c9d72f6894da1b434842
   HandyJSON: 582477127ab3ab65bd2e471815f1a7b846856978
 
 PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.8.4

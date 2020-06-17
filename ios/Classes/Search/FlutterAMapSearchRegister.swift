@@ -19,6 +19,7 @@ public class FlutterAMapSearch: NSObject {
     }
 }
 
+/// 路线规划
 public class FlutterAMapRoutePlan: FlutterAMapSearch, AMapSearchDelegate {
 
     public override init() {
@@ -85,6 +86,7 @@ public class FlutterAMapRoutePlan: FlutterAMapSearch, AMapSearchDelegate {
     }
 }
 
+/// 地理编码与反编码
 public class FlutterAMapConvert: FlutterAMapSearch, AMapSearchDelegate {
     public override init() {
         super.init()
@@ -132,3 +134,106 @@ public class FlutterAMapConvert: FlutterAMapSearch, AMapSearchDelegate {
     }
 }
 
+/// POI搜索相关
+private let PoiSearchDoneCallback = "onPoiSearchDone"
+private let PoiSearchErrorCallback = "onPoiSearchError"
+private let InputTipSearchDoneCallback = "onInputSearchDone"
+private let InputTipSearchErrorCallback = "onInputSearchError"
+
+public class FlutterAMapPoi: FlutterAMapSearch, AMapSearchDelegate {
+    
+    public override init() {
+        super.init()
+        _search = AMapSearchAPI()
+        _search.delegate = self
+    }
+
+    public func onMethod(call: FlutterMethodCall!, result: FlutterResult!) {
+        guard call.method == PoiSearchMethod else { return }
+        guard let paramStr = call.arguments as? String else { return }
+        guard let dict = Helper.stringToJson(jsonStr: paramStr) else { return }
+        guard let location = dict["location"] as? [String: Any] else { return }
+        
+        let request = AMapPOIKeywordsSearchRequest()
+        request.keywords = dict["keyWord"] as? String
+        request.city = dict["city"] as? String
+        request.page = (dict["pageNum"] as? Int) ?? 0
+        request.types = dict["ctgr"] as? String
+        let loc = AMapGeoPoint()
+        loc.longitude = (location["longitude"] as? CGFloat) ?? 0.0
+        loc.latitude = (location["latitude"] as? CGFloat) ?? 0.0
+        request.location = loc
+        _search.aMapPOIKeywordsSearch(request)
+    }
+    
+    public func onPOISearchDone(_ request: AMapPOISearchBaseRequest!, response: AMapPOISearchResponse!) {
+        if response.count == 0 {
+            SwiftFlutterAmapPlugin.routeChannel.invokeMethod(PoiSearchErrorCallback, arguments: "无结果")
+        } else if let pois = response.pois {
+            var results: [[String: Any]] = []
+            for poi in pois {
+                let latlng: [String: Any] = ["latitude": poi.location.latitude, "longitude": poi.location.longitude]
+                let result: [String: Any] = ["name": poi.name ?? "",
+                                             "address": poi.address ?? "",
+                                             "latLng": Helper.json2String(jsonObject: latlng),
+                                             "province": poi.province ?? "",
+                                             "city": poi.city ?? "",
+                                             "district": poi.district ?? "",
+                                             "area": poi.businessArea ?? ""]
+                results.append(result)
+            }
+            SwiftFlutterAmapPlugin.poiChannel.invokeMethod(PoiSearchDoneCallback, arguments: results)
+        }
+    }
+    
+    public func aMapSearchRequest(_ request: Any!, didFailWithError error: Error!) {
+        if let error = error {
+            let error = error as NSError
+            SwiftFlutterAmapPlugin.routeChannel.invokeMethod(PoiSearchErrorCallback, arguments: "搜索出错:{\(error.code) - \(error.localizedDescription)}")
+        }
+    }
+}
+
+public class FlutterAMapInputTip: FlutterAMapSearch, AMapSearchDelegate {
+    
+    public override init() {
+        super.init()
+        _search = AMapSearchAPI()
+        _search.delegate = self
+    }
+
+    public func onMethod(call: FlutterMethodCall!, result: FlutterResult!) {
+        guard let paramStr = call.arguments as? String else { return }
+        guard let dict = Helper.stringToJson(jsonStr: paramStr) else { return }
+        if call.method == InputTipSearchMethod {
+            let request = AMapInputTipsSearchRequest()
+            request.city = dict["city"] as? String
+            request.keywords = dict["keyword"] as? String
+            _search.aMapInputTipsSearch(request)
+        }
+    }
+    
+    public func onInputTipsSearchDone(_ request: AMapInputTipsSearchRequest!, response: AMapInputTipsSearchResponse!) {
+        if response.count == 0 {
+            SwiftFlutterAmapPlugin.routeChannel.invokeMethod(InputTipSearchErrorCallback, arguments: "无结果")
+        } else {
+            var results: [[String: Any]] = []
+            for tip in response.tips {
+                let result: [String: Any] = ["poiId": tip.uid ?? "",
+                                             "name": tip.name ?? "",
+                                             "address": tip.address ?? "",
+                                             "adCode": tip.adcode ?? "",
+                                             "typeCode": tip.typecode ?? ""]
+                results.append(result)
+            }
+            SwiftFlutterAmapPlugin.inputTipChannel.invokeMethod(InputTipSearchDoneCallback, arguments: results)
+        }
+    }
+    
+    public func aMapSearchRequest(_ request: Any!, didFailWithError error: Error!) {
+        if let error = error {
+            let error = error as NSError
+            SwiftFlutterAmapPlugin.routeChannel.invokeMethod(InputTipSearchErrorCallback, arguments: "搜索出错:{\(error.code) - \(error.localizedDescription)}")
+        }
+    }
+}

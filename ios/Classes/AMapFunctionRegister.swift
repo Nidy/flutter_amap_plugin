@@ -11,7 +11,9 @@ public class AMapSearchFunctionRegister: NSObject {
         if _routeDic == nil {
             _routeDic = ["startRoutePlanning": FlutterAMapRoutePlan(),
                          "coordinateToGeo": FlutterAMapConvert(),
-                         "geoToCoordinate": FlutterAMapConvert()]
+                         "geoToCoordinate": FlutterAMapConvert(),
+                         PoiSearchMethod: FlutterAMapPoi(),
+                         InputTipSearchMethod: FlutterAMapInputTip()]
         }
         return _routeDic
     }

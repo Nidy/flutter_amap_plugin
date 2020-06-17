@@ -1,7 +1,6 @@
 #import "FlutterAmapPlugin.h"
 #import <flutter_amap_plugin/flutter_amap_plugin-Swift.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
-#import <AMapSearchKit/AMapSearchKit.h>
 
 static NSObject <FlutterPluginRegistrar> *_registar;
 static FlutterMethodChannel *_locChannel;
@@ -10,11 +9,12 @@ static NSString *AMAP_BASE_CHANNEL = @"plugin/base/init";
 static NSString *AMAP_MAP_CHANNEL = @"plugin/amap/map";
 static NSString *AMAP_NAV_CHANNEL = @"plugin/amap/nav";
 static NSString *AMAP_LOCATION_CHANNEL = @"plugin/amap/location";
-static NSString *AMAP_SEARCH_ROUTE_CHANNEL = @"plugin/amap/search/route";
 
 @implementation FlutterAmapPlugin
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
+    // Search相关的实现放在了SwiftFlutterAmapPlugin中【真的坑】
     [SwiftFlutterAmapPlugin registerWithRegistrar:registrar];
+    
     _registar = registrar;
 
     [AMapServices sharedServices].enableHTTPS = YES;
@@ -56,19 +56,6 @@ static NSString *AMAP_SEARCH_ROUTE_CHANNEL = @"plugin/amap/search/route";
             result(FlutterMethodNotImplemented);
         }
     }];
-
-//    //路线规划
-//    FlutterMethodChannel *routeChannel = [FlutterMethodChannel methodChannelWithName:AMAP_SEARCH_ROUTE_CHANNEL binaryMessenger:[registar messenger]];
-//    [routeChannel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
-//
-//        if ([call.method isEqualToString:@"startRoutePlanning"]) {
-//            FlutterAMapRoutePlan *routePlan = [AMapSearchFunctionRegister routePlanningFuntionHandler][call.method];
-//            [routePlan onMethodWithCall:call result:result];
-//        } else {
-//            result(FlutterMethodNotImplemented);
-//        }
-//    }];
-
 }
 
 + (NSObject <FlutterPluginRegistrar> *)registar {
