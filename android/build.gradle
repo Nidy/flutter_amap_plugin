@@ -44,9 +44,9 @@ android {
 }
 
 dependencies {
-    implementation 'com.amap.api:navi-3dmap:6.5.0_3dmap6.5.0'
-    implementation 'com.amap.api:search:6.5.0.1'
-    implementation 'com.amap.api:location:4.4.0'
-    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.amap.api:navi-3dmap:7.4.0_3dmap7.4.0'
+    implementation 'com.amap.api:search:6.9.2'
+    implementation 'com.amap.api:location:4.7.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.mylhyl:acp:1.2.0'
 }
