@@ -14,6 +14,11 @@ export 'amap_location/amap_location_controller.dart';
 export 'amap_location/amap_location_options.dart';
 export './amap_search/amap_route/amap_route_controller.dart';
 export './amap_search/amap_route/amap_route_options.dart';
+export './amap_search/amap_poi/amap_query_poi_options.dart';
+export './amap_search/amap_poi/amap_poi_controller.dart';
+export './amap_search/amap_poi/amap_poi_model.dart';
+export './amap_search/amap_inputtips/amap_inputtips_controller.dart';
+export './amap_search/amap_inputtips/amap_inputtips_model.dart';
 export './amap_search/amap_convert/amap_convert_controller.dart';
 
 class FlutterAmapPlugin {

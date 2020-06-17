@@ -18,6 +18,7 @@ class AMapLocationController {
   void initLocationChannel({
     @required LocationCallHandler onLocationCallHandler,
   }) {
+    // ignore: missing_return
     _locChannel.setMethodCallHandler((handler) {
       switch (handler.method) {
         case 'locationError':

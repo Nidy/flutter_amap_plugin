@@ -11,8 +11,18 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/central'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven { url 'http://download.flutter.io' }
+        jcenter { url "http://jcenter.bintray.com/"}
         google()
-        jcenter()
     }
 }
 

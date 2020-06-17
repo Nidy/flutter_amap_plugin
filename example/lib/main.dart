@@ -3,6 +3,7 @@ import './home_page.dart';
 import 'package:flutter_amap_plugin/flutter_amap_plugin.dart';
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final result = await FlutterAmapPlugin.initAMapIOSKey(
       '43b92ce7414d30f4dc7d07ae3db596dd');
   print(result);

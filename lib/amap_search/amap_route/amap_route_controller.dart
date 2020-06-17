@@ -17,6 +17,7 @@ class AMapRouteController {
   void initRouteChannel({
     @required RoutePlanningCallHandler onRoutePlanningCallHandler,
   }) {
+    // ignore: missing_return
     _routeChannel.setMethodCallHandler((handler) {
       switch (handler.method) {
         case 'onRouteSearchDone':

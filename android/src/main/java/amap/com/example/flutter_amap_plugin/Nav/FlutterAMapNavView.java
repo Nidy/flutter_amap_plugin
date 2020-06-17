@@ -142,9 +142,7 @@ public class FlutterAMapNavView implements PlatformView, MethodChannel.MethodCal
         if (methodCall.method.equals("startNav")) {
             if (methodCall.arguments instanceof String) {
                 Gson gson = new Gson();
-                Coordinate model = new Coordinate();
-                model = gson.fromJson(methodCall.arguments.toString(), Coordinate.class);
-                latlon = model;
+                latlon = gson.fromJson(methodCall.arguments.toString(), Coordinate.class);
                 initNav();
             }
         }

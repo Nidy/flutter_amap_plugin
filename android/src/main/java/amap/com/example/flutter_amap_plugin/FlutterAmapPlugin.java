@@ -27,6 +27,8 @@ import amap.com.example.flutter_amap_plugin.Nav.Component.FlutterAMapComponentNa
 import amap.com.example.flutter_amap_plugin.Nav.FlutterAMapNavFactory;
 import amap.com.example.flutter_amap_plugin.Nav.FlutterAMapNavView;
 import amap.com.example.flutter_amap_plugin.Search.FlutterAMapConvertRegister;
+import amap.com.example.flutter_amap_plugin.Search.FlutterAMapInputTipsRegister;
+import amap.com.example.flutter_amap_plugin.Search.FlutterAMapPoiRegister;
 import amap.com.example.flutter_amap_plugin.Search.FlutterAMapSearchRegister;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodCall;
@@ -37,6 +39,8 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import static amap.com.example.flutter_amap_plugin.Location.FlutterAMapLocationRegister.LOCATION_CHANNEL_NAME;
 import static amap.com.example.flutter_amap_plugin.Search.FlutterAMapConvertRegister.SEARCH_CONVERT_CHANNEL_NAME;
+import static amap.com.example.flutter_amap_plugin.Search.FlutterAMapInputTipsRegister.SEARCH_INPUTTIPS_CHANNEL_NAME;
+import static amap.com.example.flutter_amap_plugin.Search.FlutterAMapPoiRegister.SEARCH_POI_CHANNEL_NAME;
 import static amap.com.example.flutter_amap_plugin.Search.FlutterAMapSearchRegister.SEARCH_ROUTE_CHANNEL_NAME;
 
 /**
@@ -53,6 +57,8 @@ public class FlutterAmapPlugin implements MethodCallHandler {
     public static MethodChannel locChannel;
     public static MethodChannel routeChannel;
     public static MethodChannel convertChannel;
+    public static MethodChannel poiChannel;
+    public static MethodChannel inputtipsChannel;
 
     // 当前Activity环境
     private static FlutterActivity root;
@@ -155,6 +161,13 @@ public class FlutterAmapPlugin implements MethodCallHandler {
         convertChannel.setMethodCallHandler(new FlutterAmapPlugin((FlutterActivity) registrar.activity()));
         FlutterAmapPlugin.convertChannel = convertChannel;
 
+        final MethodChannel poiChannel = new MethodChannel(registrar.messenger(), SEARCH_POI_CHANNEL_NAME);
+        poiChannel.setMethodCallHandler(new FlutterAmapPlugin((FlutterActivity) registrar.activity()));
+        FlutterAmapPlugin.poiChannel = poiChannel;
+        final MethodChannel inputtipsChannel = new MethodChannel(registrar.messenger(), SEARCH_INPUTTIPS_CHANNEL_NAME);
+        inputtipsChannel.setMethodCallHandler(new FlutterAmapPlugin((FlutterActivity) registrar.activity()));
+        FlutterAmapPlugin.inputtipsChannel = inputtipsChannel;
+
         final MethodChannel navChannel = new MethodChannel(registrar.messenger(), FlutterAMapNavView.NAV_CHANNEL_NAME);
         navChannel.setMethodCallHandler(new FlutterAmapPlugin((FlutterActivity) registrar.activity()));
 
@@ -188,14 +201,18 @@ public class FlutterAmapPlugin implements MethodCallHandler {
                 new FlutterAMapSearchRegister().onMethodCall(call, result);
                 break;
             case "geoToCoordinate":
-                new FlutterAMapConvertRegister().onMethodCall(call, result);
-                break;
             case "coordinateToGeo":
                 new FlutterAMapConvertRegister().onMethodCall(call, result);
                 break;
             case "startComponentNav":
 //                initNav();
                 new FlutterAMapComponentNavView(registrar).onMethodCall(call,result);
+                break;
+            case "searchPoiItems":
+                new FlutterAMapPoiRegister().onMethodCall(call,result);
+                break;
+            case "getInputTips":
+                new FlutterAMapInputTipsRegister().onMethodCall(call,result);
                 break;
             default:
                 result.notImplemented();

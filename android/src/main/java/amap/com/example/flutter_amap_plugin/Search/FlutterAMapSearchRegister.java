@@ -78,7 +78,7 @@ public class FlutterAMapSearchRegister implements MethodChannel.MethodCallHandle
             map.put("totalTrafficLights", drivePath.getTotalTrafficlights());
             FlutterAmapPlugin.routeChannel.invokeMethod("onRouteSearchDone", map);
         } else {
-            FlutterAmapPlugin.locChannel.invokeMethod("routePlanningError",
+            FlutterAmapPlugin.routeChannel.invokeMethod("routePlanningError",
                     "路线规划错误:{" + i + " - 未发现有效路径}");
         }
     }
@@ -127,7 +127,7 @@ public class FlutterAMapSearchRegister implements MethodChannel.MethodCallHandle
             map.put("shareURL", s);
             FlutterAmapPlugin.routeChannel.invokeMethod("onShareSearchDone", map);
         } else {
-            FlutterAmapPlugin.locChannel.invokeMethod("routePlanningError",
+            FlutterAmapPlugin.routeChannel.invokeMethod("routePlanningError",
                     "路线规划错误:{" + i + " - 未发现有效路径}");
         }
     }

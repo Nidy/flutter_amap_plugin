@@ -113,8 +113,8 @@ class _MapPageState extends State<MapPage> {
             })));
           },
           options: AMapMapOptions(
-            mapType: AMapMapType.standardNight,
-            zoomLevel: 12,
+            mapType: AMapMapType.standard,
+            zoomLevel: 14,
             showsUserLocation: true,
             showsCompass: false,
             showTraffic: true,

@@ -53,7 +53,7 @@ public class FlutterAMapConvertRegister implements MethodChannel.MethodCallHandl
             map.put("address", regeocodeResult.getRegeocodeAddress().getFormatAddress());
             FlutterAmapPlugin.convertChannel.invokeMethod("onCoordinateToGeo", map);
         } else {
-            FlutterAmapPlugin.locChannel.invokeMethod("onConvertError",
+            FlutterAmapPlugin.convertChannel.invokeMethod("onConvertError",
                     "坐标转地址错误:{" + i + " - 未发现有效地址}");
         }
     }
@@ -68,7 +68,7 @@ public class FlutterAMapConvertRegister implements MethodChannel.MethodCallHandl
             FlutterAmapPlugin.convertChannel.invokeMethod("onGeoToCoordinate", map);
 
         } else {
-            FlutterAmapPlugin.locChannel.invokeMethod("onConvertError",
+            FlutterAmapPlugin.convertChannel.invokeMethod("onConvertError",
                     "地址转坐标错误:{" + i + " - 未发现有效地址}");
         }
 
