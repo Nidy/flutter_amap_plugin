@@ -104,11 +104,27 @@ public class FlutterAMapStartLocation: NSObject {
                 if isReGeocode {
                     if let reGeocode = reGeocode {
                         NSLog("reGeocode:%@", reGeocode)
-                        FlutterAmapPlugin.locationChannel().invokeMethod("reGeocodeSuccess", arguments: ["address":reGeocode.formattedAddress ?? "","lat":location.coordinate.latitude,"lon":location.coordinate.longitude])
+                        let result: [String: Any] = [
+                            "address": reGeocode.formattedAddress ?? "",
+                            "city": reGeocode.city ?? "",
+                            "district": reGeocode.district ?? "",
+                            "province": reGeocode.province ?? "",
+                            "country": reGeocode.country ?? "",
+                            "street": reGeocode.street ?? "",
+                            "streetNum": reGeocode.number ?? "",
+                            "locationDetail": "",
+                            "latitude": location.coordinate.latitude,
+                            "longitude": location.coordinate.longitude,
+                        ]
+                        FlutterAmapPlugin.locationChannel().invokeMethod("reGeocodeSuccess", arguments: result)
                     }
                 } else {
                     NSLog("location:%@", location)
-                    FlutterAmapPlugin.locationChannel().invokeMethod("locationSuccess", arguments: ["lat":location.coordinate.latitude,"lon":location.coordinate.longitude])
+                    let result: [String: Any] = [
+                        "latitude": location.coordinate.latitude,
+                        "longitude": location.coordinate.longitude,
+                    ]
+                    FlutterAmapPlugin.locationChannel().invokeMethod("locationSuccess", arguments: result)
                 }
             }
         })

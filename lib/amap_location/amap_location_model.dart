@@ -30,14 +30,16 @@ class Location extends AMapBaseModel {
   double longitude;
 
   Location.fromJson(Map<String, dynamic> json) {
-    this.address = json['address'];
-    this.city = json['city'];
-    this.district = json['district'];
-    this.province = json['province'];
-    this.country = json['country'];
-    this.street = json['street'];
-    this.streetNum = json['streetNum'];
-    this.locationDetail = json['locationDetail'];
+    if (json.containsKey("address")) {
+      this.address = json['address'];
+      this.city = json['city'];
+      this.district = json['district'];
+      this.province = json['province'];
+      this.country = json['country'];
+      this.street = json['street'];
+      this.streetNum = json['streetNum'];
+      this.locationDetail = json['locationDetail'];
+    }
     this.latitude = json['latitude'];
     this.longitude = json['longitude'];
   }
