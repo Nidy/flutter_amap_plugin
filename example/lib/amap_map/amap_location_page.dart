@@ -41,10 +41,10 @@ class _LocationPageState extends State<LocationPage> {
 
   void _startLocation() {
     _aMapLocationController.initLocation(
-        onLocationCallHandler: (address, lon, lat, error) {
+        onLocationCallHandler: (location, error) {
       if (error == null) {
-        print('address: $address\nlon: $lon\nlat: $lat');
-        _address = 'address: $address\nlon: $lon\nlat: $lat';
+        print('address: ${location.toJsonString()}');
+        _address = 'address: ${location.toJsonString()}';
       } else {
         print('error: $error');
         _address = 'error: $error';

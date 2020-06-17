@@ -31,6 +31,7 @@ class AMapQueryPoiOptions extends AMapBaseModel {
       'keyWord': keyWord,
       'city': city,
       'pageNum': pageNum,
+      'ctgr': ctgr,
     };
     if (this.location != null) {
       map['location'] = location.toJson();

@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_amap_plugin/amap_location/amap_location_model.dart';
 import '../amap_location/amap_location_options.dart';
 import '../common/coordinate.dart';
 
 const _locChannelPrefix = 'plugin/amap/location';
 
-typedef void LocationCallHandler(
-    String address, double lon, double lat, Error error);
+typedef void LocationCallHandler(Location location, Error error);
 
 class AMapLocationController {
   final MethodChannel _locChannel;
@@ -24,24 +24,23 @@ class AMapLocationController {
         case 'locationError':
           print(handler.arguments);
           if (onLocationCallHandler != null) {
-            onLocationCallHandler(
-                null, null, null, FlutterError(handler.arguments));
+            onLocationCallHandler(null, FlutterError(handler.arguments));
           }
           break;
         case 'locationSuccess':
           print(handler.arguments);
           stopLocation();
-          if (onLocationCallHandler != null) {
+          if (onLocationCallHandler != null && handler.arguments is Map) {
             onLocationCallHandler(
-                null, handler.arguments['lon'], handler.arguments['lat'], null);
+                Location.fromJson(Map<String, dynamic>.from(handler.arguments)), null);
           }
           break;
         case 'reGeocodeSuccess':
           print(handler.arguments);
           stopLocation();
-          if (onLocationCallHandler != null) {
-            onLocationCallHandler(handler.arguments['address'],
-                handler.arguments['lon'], handler.arguments['lat'], null);
+          if (onLocationCallHandler != null && handler.arguments is Map) {
+            onLocationCallHandler(
+                Location.fromJson(Map<String, dynamic>.from(handler.arguments)), null);
           }
           break;
         default:
